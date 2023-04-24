@@ -4,13 +4,13 @@ from .models import Post, Like
 
 
 def hello(request):
-    return render(request, 'index.html')
+    return render(request, 'social/index.html')
 
 
 def post_list(request):
     posts = Post.objects.all()
     context = {'posts': posts}
-    return render(request, 'post_list.html', context)
+    return render(request, 'social/post_list.html', context)
 
 
 def like_post(request, post_id):
