@@ -2,21 +2,30 @@
 {% load static %}
 
 <style>
-    .hello-msg {
-        font-size: 14px;
-        color: #ffffff;
-        margin-right: 20px;
-    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a href="{% url 'accounts:index' %}"><img src="{% static 'img/logo.png' %}"
+            style="padding-right:1rem; padding-left:3rem"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            <h1 style="padding-right: 5rem;color: steelblue;">OPTERY CONNECT</h1>
+            <h1 style="padding-right: 5rem;color: steelblue;">Optery Connect</h1>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="{% url 'social:posts' %}">Posts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-item nav-link" href="{% url 'social:posts' %}">New Post</a>
+            </li>
+            {% endif %}
         </div>
     </div>
+    {% if user.is_authenticated %}
+    <span class="hello-msg">Hello, {{request.user}}!</span>
+    <span><a class="hello-msg m2" href="{% url 'accounts:logout' %}">Logout</a></span>
+    {% endif %}
 </nav>

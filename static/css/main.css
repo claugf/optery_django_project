@@ -1,0 +1,22 @@
+.form-group {
+    padding-bottom: 1rem;
+}
+
+.btn-primary {
+    width: 100%;
+}
+
+.hello-msg {
+    display: flex;
+    color: #5F90DA;
+    margin-right: 1rem;
+}
+
+.m2 {
+    padding-right: 1rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+}

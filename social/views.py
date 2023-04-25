@@ -3,10 +3,6 @@ from django.http import JsonResponse
 from .models import Post, Like
 
 
-def hello(request):
-    return render(request, 'social/index.html')
-
-
 def post_list(request):
     posts = Post.objects.all()
     context = {'posts': posts}

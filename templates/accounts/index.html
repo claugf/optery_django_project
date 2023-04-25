@@ -1,7 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Hello World!!</h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, architecto quos! Quidem nihil natus, porro tempora
-    officia voluptatibus earum eaque? </p>
+
+<div class="row mt-5" style="flex-wrap: nowrap;">
+    <div class="card card-body text-center">
+        <h1><i class="fab fa-python fa-3x" style="color: gray;"></i></h1>
+        <p>Optery Take Home Assignment</p>
+        <p>Developer - Claudia Gonzalez</p>
+        <p>© April 2023</p>
+    </div>
+    <div class="col-md-6 m-auto">
+        <div class="card card-body text-center">
+            <p>Create an account or login</p>
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-block mb-2">Register</a>
+            <a href="{% url 'accounts:login' %}" class="btn btn-secondary btn-block">Login</a>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
