@@ -10,7 +10,10 @@
             </a>
             <h6 class="card-subtitle mb-2 text-muted">By {{ post.author.username }} on {{ post.date_posted }}</h6>
             <p class="card-text">{{ post.content }}</p>
-            <p>Likes: <span id="likes-count-{{ post.id }}"> {{ post.num_likes }} </span></p>
+            <div>
+                <i class="fa fa-thumbs-up"></i>
+                <span id="likes-count-{{ post.id }}"> {{ post.num_likes }} </span>
+            </div>
             <div id="like-post-{{ post.id }}">
                 <form hx-post="{% url 'social:like_post' post.id %}" hx-trigger="submit" hx-swap="outerHTML"
                     hx-target="#like-post-{{ post.id }}" id="like-form-{{ post.id }}" data-post-id="{{ post.id }}">
