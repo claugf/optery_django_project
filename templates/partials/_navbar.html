@@ -25,7 +25,7 @@
                     <a class="nav-item nav-link" href="{% url 'social:posts' %}">Posts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-item nav-link" href="{% url 'social:posts' %}">Users</a>
+                    <a class="nav-item nav-link" href="{% url 'accounts:user_profile' request.user %}">Profile</a>
                 </li>
                 <form class="d-flex" method="get" action="{% url 'social:search' %}" style="margin-left: 3rem;">
                     <input class="form-control me-sm-2" type="search" name="q" placeholder="Search...">

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="post_detail" style="padding-top: 2rem;">
+<div class="search" style="padding-top: 2rem;">
     {% if query %}
     <h2>Search results for "{{ query }}"</h2>
     <hr>
@@ -16,7 +16,9 @@
             {% endfor %}
         </ul>
         {% endif %}
+    </div>
 
+    <div class="card mb-3">
         {% if posts %}
         <h3 class="card-header">Posts</h3>
         <ul>
