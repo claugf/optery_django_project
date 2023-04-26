@@ -5,7 +5,9 @@
     {% for post in posts %}
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">{{ post.title }}</h4>
+            <a href="{% url 'social:post_detail' post.id %}" style="text-decoration: none;">
+                <h4 class="card-title">{{ post.title }}</h4>
+            </a>
             <h6 class="card-subtitle mb-2 text-muted">By {{ post.author.username }} on {{ post.date_posted }}</h6>
             <p class="card-text">{{ post.content }}</p>
             <p>Likes: <span id="likes-count-{{ post.id }}"> {{ post.num_likes }} </span></p>

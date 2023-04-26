@@ -8,7 +8,7 @@ from .models import Post, Like, Comment
 
 @login_required
 def post_list(request):
-    posts = Post.objects.annotate(num_likes=Count('like'))
+    posts = Post.objects.annotate(num_likes=Count('likes'))
     return render(request, 'social/post_list.html', {'posts': posts})
 
 
@@ -34,7 +34,7 @@ def like_post(request, post_id):
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     comments = post.comment_set.all().order_by('-date_posted')
-    num_likes = post.like_set.count()
+    num_likes = post.likes.count()
     data = {'post': post, 'comments': comments, 'num_likes': num_likes}
     return render(request, 'social/post_detail.html', data)
 

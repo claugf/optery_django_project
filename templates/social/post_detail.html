@@ -1,47 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="card">
-    <div class="card-body">
-        <h4 class="card-title">{{ post.title }}</h4>
-        <h6 class="card-subtitle mb-2 text-muted">By {{ post.author.username }} on {{ post.date_posted }}</h6>
-        <p class="card-text">{{ post.content }}</p>
-        <p>Likes: {{ post.num_likes }}</p>
-    </div>
-</div>
-
-<hr>
-
-<h3>Comments</h3>
-
-<div class="comments" id="comments" hx-get="{% url 'social:post_detail' post.id %}">
-    {% for comment in comments %}
+<div class="post_detail" style="padding-top: 2rem;">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">{{ comment.user.username }}</h5>
-            <p class="card-text">{{ comment.content }}</p>
-            <p class="card-text"><small class="text-muted">{{ comment.date_posted }}</small></p>
+            <h4 class="card-title">{{ post.title }}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">By {{ post.author.username }} on {{ post.date_posted }}</h6>
+            <p class="card-text">{{ post.content }}</p>
+            <p>Likes: {{ num_likes }}</p>
         </div>
     </div>
-    {% empty %}
-    <p>No comments yet.</p>
-    {% endfor %}
-</div>
 
-<hr>
+    <hr>
 
-<div class="add-comment">
-    <h3>Add a Comment</h3>
-    <form hx-post="{% url 'social:add_comment' post.id %}" hx-trigger="submit" hx-swap="outerHTML" hx-target="#comments"
-        hx-vals='{"{% csrf_token %}": "{{ csrf_token }}"}' hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-        hx-after-swap="() => form.querySelector('textarea').value = ''">
+    <h3>Comments</h3>
 
-        {% csrf_token %}
-        <div class="form-group">
-            <textarea class="form-control" name="comment" placeholder="Enter your comment"></textarea>
+    <div class="comments" id="comments" hx-get="{% url 'social:post_detail' post.id %}">
+        {% for comment in comments %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ comment.user.username }}</h5>
+                <p class="card-text">{{ comment.content }}</p>
+                <p class="card-text"><small class="text-muted">{{ comment.date_posted }}</small></p>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Add a Comment</button>
-    </form>
+        {% empty %}
+        <p>No comments yet.</p>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <div class="add-comment">
+        <h3>Add a Comment</h3>
+        <form hx-post="{% url 'social:add_comment' post.id %}" hx-trigger="submit" hx-swap="outerHTML"
+            hx-target="#comments" hx-vals='{"{% csrf_token %}": "{{ csrf_token }}"}'
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-after-swap="() => form.querySelector('textarea').value = ''">
+
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea class="form-control" name="comment" placeholder="Enter your comment"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Add a Comment</button>
+        </form>
+    </div>
 </div>
 {% endblock %}
 
