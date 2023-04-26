@@ -1,33 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="posts" style="padding-top: 2rem;">
+<h1>Posts</h1>
+<ul>
     {% for post in posts %}
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">{{ post.title }}</h4>
-            <h6 class="card-subtitle mb-2 text-muted">{{ post.author.username }}</h6>
-            <p class="card-text">{{ post.content }}</p>
-            <p>Likes: <span id="likes-count-{{ post.id }}"> {{ post.like_count }} </span></p>
-            <form id="like-form" class="like-form" data-post-id="{{ post.id }}"
-                hx-post="{% url 'social:like_post' post.id %}" hx-target="likes-count-{{ post.id }}">
+    <li>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <p>By {{ post.author.username }} on {{ post.date_posted }}</p>
+        <div id="like-post-{{ post.id }}">
+            <form hx-post="{% url 'social:like_post' post.id %}" hx-trigger="submit" hx-swap="outerHTML"
+                hx-target="#like-post-{{ post.id }}" id="like-form-{{ post.id }}" data-post-id="{{ post.id }}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Like</button>
+                <span id="likes-count-{{ post.id }}">{{ post.num_likes }}</span>
+                <button type="submit" id="like-button-{{ post.id }}">
+                    {% if request.user in post.like.all %}
+                    Unlike
+                    {% else %}
+                    Like
+                    {% endif %}
+                </button>
             </form>
         </div>
-    </div>
+    </li>
     {% endfor %}
-</div>
-{% endblock %}
+</ul>
 
-{% block scripts %}
 <script>
-    document.querySelectorAll('form').forEach(function (form) {
-        form.addEventListener('htmx:response', function (event) {
-            const postId = event.detail.elt.getAttribute('data-post-id');
-            const likesCount = event.detail.xhr.response.likes_count;
-            document.querySelector('#likes-count-' + postId).textContent = likesCount;
+    document.querySelectorAll('form').forEach((form) => {
+        form.addEventListener('htmx:afterSwap', (event) => {
+            const data = JSON.parse(event.detail.xhr.response);
+            const postId = form.dataset.postId;
+            const likesCountSpan = document.querySelector(`#likes-count-${postId}`);
+            likesCountSpan.innerText = data.likes_count;
+
+            const likeButton = document.querySelector(`#like-button-${postId}`);
+            if (data.likes_count > 0 && likeButton.innerText === 'Like') {
+                likeButton.innerText = 'Unlike';
+            } else if (data.likes_count === 0 && likeButton.innerText === 'Unlike') {
+                likeButton.innerText = 'Like';
+            }
         });
-    });    
+    });
 </script>
 {% endblock %}

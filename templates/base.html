@@ -14,6 +14,8 @@
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <!-- Bootstrap Library styles -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.2.3/dist/cosmo/bootstrap.min.css">
+    <!-- HTMX Library -->
+    <script src="https://unpkg.com/htmx.org/dist/htmx.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
@@ -28,11 +30,6 @@
         {% block content %}
         {% endblock %}
     </div>
-
-    <!-- HTMX Library -->
-    <!-- <script src="/static/js/htmx.1.9.0.min.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org/dist/htmx.min.js"></script>
-
 
     <!-- Jquery -->
     <script src="{% static 'js/jquery.min.js' %}"></script>

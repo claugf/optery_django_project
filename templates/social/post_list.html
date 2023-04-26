@@ -1,39 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Posts</h1>
-<ul>
+<div class="posts" style="padding-top: 2rem;">
     {% for post in posts %}
-    <li>
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.content }}</p>
-        <p>By {{ post.author.username }} on {{ post.date_posted }}</p>
-        <div id="like-post-{{ post.id }}">
-            <span id="likes-count-{{ post.id }}">{{ post.num_likes }}</span>
-            <button hx-post="{% url 'social:like_post' post.id %}" hx-trigger="click"
-                hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }'>
-                ll
-                {% if request.user in post.like.all %}
-                Unlike
-                {% else %}
-                Like
-                {% endif %}
-            </button>
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{ post.title }}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">By {{ post.author.username }} on {{ post.date_posted }}</h6>
+            <p class="card-text">{{ post.content }}</p>
+            <p>Likes: <span id="likes-count-{{ post.id }}"> {{ post.num_likes }} </span></p>
+            <div id="like-post-{{ post.id }}">
+                <form hx-post="{% url 'social:like_post' post.id %}" hx-trigger="submit" hx-swap="outerHTML"
+                    hx-target="#like-post-{{ post.id }}" id="like-form-{{ post.id }}" data-post-id="{{ post.id }}">
+                    {% csrf_token %}
+                    <span id="likes-count-{{ post.id }}">{{ post.num_likes }}</span>
+                    <button type="submit" id="like-button-{{ post.id }}">
+                        {% if request.user in post.like.all %}
+                        Unlike
+                        {% else %}
+                        Like
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
         </div>
-    </li>
+    </div>
     {% endfor %}
-</ul>
+</div>
+{% endblock %}
 
+{% block scripts %}
 <script>
-    document.addEventListener('htmx:afterSwap', function (event) {
-        var target = event.detail.target;
-        if (target.tagName === 'BUTTON' && target.hasAttribute('hx-post')) {
-            var response = event.detail.xhr.response;
-            var likesCount = response.likes_count;
-            var postId = target.getAttribute('hx-post').match(/(\d+)\/$/)[1];
-            var likesCountSpan = document.getElementById('likes-count-' + postId);
-            likesCountSpan.textContent = likesCount;
-        }
+    document.querySelectorAll('form').forEach((form) => {
+        form.addEventListener('htmx:afterSwap', (event) => {
+            const data = JSON.parse(event.detail.xhr.response);
+            const postId = form.dataset.postId;
+            const likesCountSpan = document.querySelector(`#likes-count-${postId}`);
+            likesCountSpan.innerText = data.likes_count;
+
+            const likeButton = document.querySelector(`#like-button-${postId}`);
+            if (data.likes_count > 0 && likeButton.innerText === 'Like') {
+                likeButton.innerText = 'Unlike';
+            } else if (data.likes_count === 0 && likeButton.innerText === 'Unlike') {
+                likeButton.innerText = 'Like';
+            }
+        });
     });
 </script>
 {% endblock %}
