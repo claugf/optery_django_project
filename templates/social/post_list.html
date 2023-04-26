@@ -1,33 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="posts" style="padding-top: 2rem;">
+<h1>Posts</h1>
+<ul>
     {% for post in posts %}
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">{{ post.title }}</h4>
-            <h6 class="card-subtitle mb-2 text-muted">{{ post.author.username }}</h6>
-            <p class="card-text">{{ post.content }}</p>
-            <p>Likes: <span id="likes-count-{{ post.id }}"> {{ post.like_count }} </span></p>
-            <form id="like-form" class="like-form" data-post-id="{{ post.id }}"
-                hx-post="{% url 'social:like_post' post.id %}" hx-target="likes-count-{{ post.id }}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Like</button>
-            </form>
+    <li>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content }}</p>
+        <p>By {{ post.author.username }} on {{ post.date_posted }}</p>
+        <div id="like-post-{{ post.id }}">
+            <span id="likes-count-{{ post.id }}">{{ post.num_likes }}</span>
+            <button hx-post="{% url 'social:like_post' post.id %}" hx-trigger="click"
+                hx-headers='{ "X-CSRFToken": "{{ csrf_token }}" }'>
+                ll
+                {% if request.user in post.like.all %}
+                Unlike
+                {% else %}
+                Like
+                {% endif %}
+            </button>
         </div>
-    </div>
+    </li>
     {% endfor %}
-</div>
-{% endblock %}
+</ul>
 
-{% block scripts %}
 <script>
-    document.querySelectorAll('form').forEach(function (form) {
-        form.addEventListener('htmx:response', function (event) {
-            const postId = event.detail.elt.getAttribute('data-post-id');
-            const likesCount = event.detail.xhr.response.likes_count;
-            document.querySelector('#likes-count-' + postId).textContent = likesCount;
-        });
-    });    
+    document.addEventListener('htmx:afterSwap', function (event) {
+        var target = event.detail.target;
+        if (target.tagName === 'BUTTON' && target.hasAttribute('hx-post')) {
+            var response = event.detail.xhr.response;
+            var likesCount = response.likes_count;
+            var postId = target.getAttribute('hx-post').match(/(\d+)\/$/)[1];
+            var likesCountSpan = document.getElementById('likes-count-' + postId);
+            likesCountSpan.textContent = likesCount;
+        }
+    });
 </script>
 {% endblock %}
