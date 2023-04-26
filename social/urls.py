@@ -6,5 +6,5 @@ app_name = 'social'
 
 urlpatterns = [
     path('posts/', post_list, name='posts'),
-    path('posts/int:post_id/like/', like_post, name='like_post')
+    path('posts/<int:post_id>/like/', like_post, name='like_post')
 ]

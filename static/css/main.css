@@ -1,3 +1,4 @@
+/* Forms */
 .form-group {
     padding-bottom: 1rem;
 }
@@ -6,6 +7,7 @@
     width: 100%;
 }
 
+/* Messages */
 .hello-msg {
     display: flex;
     color: #5F90DA;
@@ -16,7 +18,14 @@
     padding-right: 1rem;
 }
 
+/* Nav Bar */
 .nav-item {
     display: flex;
     align-items: center;
+}
+
+/* Cards */
+.card {
+    border-radius: 1rem;
+    margin-bottom: 1rem;
 }
