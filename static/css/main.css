@@ -24,6 +24,10 @@
     align-items: center;
 }
 
+.d-flex {
+    margin-left: 3rem;
+}
+
 /* Cards */
 .card {
     border-radius: 1rem;

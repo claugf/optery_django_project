@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
-from django.http import JsonResponse
-from django.db.models import Count
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+from django.contrib.auth.models import User
+from django.db.models import Count
 from .models import Post, Like, Comment
 
 
@@ -59,3 +61,23 @@ def add_comment(request, post_id):
         return JsonResponse(data)
     else:
         return JsonResponse({'success': False})
+
+
+@login_required
+def search_view(request):
+    query = request.GET.get('q')
+
+    if query:
+        users = User.objects.filter(username__icontains=query)
+        posts = Post.objects.filter(title__icontains=query)
+    else:
+        users = None
+        posts = None
+
+    context = {
+        'users': users,
+        'posts': posts,
+        'query': query,
+    }
+
+    return render(request, 'social/search.html', context)

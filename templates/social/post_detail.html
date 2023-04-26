@@ -20,13 +20,15 @@
 
     <div class="comments" id="comments" hx-get="{% url 'social:post_detail' post.id %}">
         {% for comment in comments %}
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ comment.user.username }}</h5>
-                <p class="card-text">{{ comment.content }}</p>
-                <p class="card-text"><small class="text-muted">{{ comment.date_posted }}</small></p>
-            </div>
-        </div>
+        <figure>
+            <blockquote class="blockquote">
+                <p class="mb-0">{{ comment.content }}</p>
+
+            </blockquote>
+            <figcaption class="blockquote-footer">
+                {{ comment.user.username }} in <cite title="Source Title">{{ comment.date_posted }}</cite>
+            </figcaption>
+        </figure>
         {% empty %}
         <p>No comments yet.</p>
         {% endfor %}
