@@ -1,7 +1,32 @@
 from django.contrib import admin
-from .models import Post, Comment, Like
+from .models import Post, Like, Comment
 
-# Register your models here.
-admin.site.register(Post)
-admin.site.register(Comment)
-admin.site.register(Like)
+
+class LikeInline(admin.TabularInline):
+    model = Like
+
+
+class CommentInline(admin.StackedInline):
+    model = Comment
+
+
+@admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    inlines = [LikeInline, CommentInline]
+    list_display = ('title', 'author', 'date_posted')
+    list_filter = ('author', 'date_posted')
+    search_fields = ('title', 'content')
+    ordering = ('-date_posted',)
+
+
+@admin.register(Like)
+class LikeAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user')
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ('post', 'user', 'date_posted')
+    list_filter = ('user', 'date_posted')
+    search_fields = ('content',)
+    ordering = ('-date_posted',)

@@ -29,10 +29,7 @@
         {% endfor %}
     </div>
 
-    <hr>
-
     <div class="add-comment">
-        <h3>Add a Comment</h3>
         <form hx-post="{% url 'social:add_comment' post.id %}" hx-trigger="submit" hx-swap="outerHTML"
             hx-target="#comments" hx-vals='{"{% csrf_token %}": "{{ csrf_token }}"}'
             hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
