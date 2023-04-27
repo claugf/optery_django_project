@@ -1,4 +1,4 @@
-# optery_django_project
+# Optery Connect - Take Home Assignment
 ## Instructions
 You have been tasked with building a social network app where a user can post a post, get likes from other users, and users can comment on their post. Your task is to implement the following features:
 1. Implement a view to display a list of all posts with their title, content, author, and number of likes. Use HTMX to allow a user to like a post without leaving the page. When a user likes a post, create a new like object and display the updated number of likes in real-time without a page refresh.
@@ -13,3 +13,42 @@ You have been tasked with building a social network app where a user can post a 
 - Bonus #2 - Extend as many features / functionality as you’d like.
 ## Submission
 Please submit your code as a zip file containing a Django project with the above features implemented. Your submission should include instructions on how to run the project and any relevant notes about the implementation.
+
+# Assignment
+## Instructions
+1. Install Python and Django in case they are not installed in the local machine.
+```
+brew install python
+pip install django
+```
+2. Access to the project repository. For this you can either:
+- Clone the git repository: 
+```
+git clone git@github.com:claugf/optery_django_project.git
+```
+- Unzip the sent file and copy to your local machine.
+
+3. Create virtual environment
+```
+python -m venv env
+```
+4. Activate the virtual environment
+```
+source env/bin/activate
+```
+5. Install project dependencies
+```
+python -m pip install -r requirements.txt 
+```
+6. Run migrations
+```
+python manage.py migrate
+```
+7. Run the server
+```
+python manage.py runserver
+```
+8. Browse to: http://127.0.0.1:8000/
+
+>Note:
+The variables DEBUG, ALLOWED_HOSTS from the settings.py file were set like following (DEBUG = False | ALLOWED_HOSTS = ['127.0.0.1', '*'])for the sumission. However, they can be changed as needed.
