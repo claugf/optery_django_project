@@ -4,68 +4,33 @@
 <div class="post_detail" style="padding-top: 2rem;">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">{{ post.title }}</h4>
+            <h3 class="card-title text-primary">{{ post.title }}</h3>
             <h6 class="card-subtitle mb-2 text-muted">By {{ post.author.username }} on {{ post.date_posted }}</h6>
             <p class="card-text">{{ post.content }}</p>
-            <div>
+            <h4 id="likes-count-{{ post.id }}" class="text-muted">
                 <i class="fa fa-thumbs-up"></i>
-                <span id="likes-count-{{ post.id }}"> {{ num_likes }} </span>
+                {{ num_likes }}
+            </h4>
+
+            <hr>
+            <h5 class="text-primary">Comments</h5>
+
+            <div class="comments" id="comment_list">
+                {% include 'partials/_comment_list.html' %}
+            </div>
+
+            <div class="add-comment">
+                <form id="comment-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea class="form-control" id="comment-textarea" name="comment"
+                            placeholder="Enter your comment..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" hx-post="{% url 'social:add_comment' post.id %}"
+                        hx-target="#comment_list">Add a Comment</button>
+                </form>
             </div>
         </div>
     </div>
-
-    <hr>
-
-    <h3>Comments</h3>
-
-    <div class="comments" id="comments" hx-get="{% url 'social:post_detail' post.id %}">
-        {% for comment in comments %}
-        <figure>
-            <blockquote class="blockquote">
-                <p class="mb-0">{{ comment.content }}</p>
-
-            </blockquote>
-            <figcaption class="blockquote-footer">
-                {{ comment.user.username }} in <cite title="Source Title">{{ comment.date_posted }}</cite>
-            </figcaption>
-        </figure>
-        {% empty %}
-        <p>No comments yet.</p>
-        {% endfor %}
-    </div>
-
-    <div class="add-comment">
-        <form hx-post="{% url 'social:add_comment' post.id %}" hx-trigger="submit" hx-swap="outerHTML"
-            hx-target="#comments" hx-vals='{"{% csrf_token %}": "{{ csrf_token }}"}'
-            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-            hx-after-swap="() => form.querySelector('textarea').value = ''">
-
-            {% csrf_token %}
-            <div class="form-group">
-                <textarea class="form-control" name="comment" placeholder="Enter your comment"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Add a Comment</button>
-        </form>
-    </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    document.querySelector('form').addEventListener('htmx:afterSwap', (event) => {
-        const form = event.target;
-        const data = JSON.parse(event.detail.xhr.response);
-        const commentsDiv = document.querySelector('#comments');
-        commentsDiv.innerHTML += `
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">${data.comment.user}</h5>
-                    <p class="card-text">${data.comment.content}</p>
-                    <p class="card-text"><small class="text-muted">${data.comment.date_posted}</small></p>
-                </div>
-            </div>
-        `;
-        form.querySelector('textarea').value = '';
-    });
-</script>
 {% endblock %}

@@ -12,7 +12,6 @@ def index(request):
 
 
 def register(request):
-    #   REGISTER USER
     form = CreateUserForm()
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -29,7 +28,6 @@ def register(request):
 
 
 def loginPage(request):
-    # LOGGING USER
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -47,7 +45,6 @@ def loginPage(request):
 
 
 def logoutUser(request):
-    # LOGOUT USER
     logout(request)
     messages.info(request, 'You are logged out!')
     return redirect('accounts:login')

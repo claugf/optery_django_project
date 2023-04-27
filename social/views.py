@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
+from django.contrib import messages
 
 from django.contrib.auth.models import User
 from django.db.models import Count
@@ -44,20 +45,13 @@ def add_comment(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     comment_text = request.POST.get('comment')
     if comment_text:
-        comment = Comment.objects.create(
+        Comment.objects.create(
             post=post, user=request.user, content=comment_text)
-        data = {
-            'success': True,
-            'comment': {
-                'id': comment.id,
-                'user': comment.user.username,
-                'content': comment.content,
-                'date_posted': comment.date_posted.strftime('%b %d, %Y %I:%M %p')
-            }
-        }
-        return JsonResponse(data)
     else:
-        return JsonResponse({'success': False})
+        messages.warning(request, "Please enter a comment!")
+
+    comments = post.comment_set.all().order_by('-date_posted')
+    return render(request, 'partials/_comment_list.html', {'comments': comments})
 
 
 @login_required

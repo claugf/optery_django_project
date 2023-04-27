@@ -1,0 +1,16 @@
+{% for comment in comments %}
+<figure>
+    <blockquote class="blockquote">
+        <p class="mb-0">{{ comment.content }}</p>
+
+    </blockquote>
+    <figcaption class="blockquote-footer">
+        {{ comment.user.username }} in <cite title="Source Title">{{ comment.date_posted }}</cite>
+    </figcaption>
+</figure>
+{% empty %}
+<p class="text-muted">No comments yet.</p>
+{% endfor %}
+
+<!-- Messages -->
+{% include 'partials/_messages.html' %}
