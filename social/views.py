@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 
 from django.contrib.auth.models import User
 from django.db.models import Count
@@ -17,19 +17,16 @@ def post_list(request):
 @require_POST
 @login_required
 def like_post(request, post_id):
-    if request.method == 'POST':
-        post = get_object_or_404(Post, pk=post_id)
-        user = request.user
+    post = get_object_or_404(Post, pk=post_id)
+    user = request.user
 
-        if Like.objects.filter(post=post, user=user).exists():
-            Like.objects.filter(post=post, user=user).delete()
-            like_added = False
-        else:
-            Like.objects.create(post=post, user=user)
-            like_added = True
+    if Like.objects.filter(post=post, user=user).exists():
+        Like.objects.filter(post=post, user=user).delete()
+    else:
+        Like.objects.create(post=post, user=user)
 
-        likes_count = Like.objects.filter(post=post).count()
-        return JsonResponse({'likes_count': likes_count, 'like_added': like_added})
+    num_likes = post.likes.count()
+    return HttpResponse(num_likes)
 
 
 @login_required

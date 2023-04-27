@@ -11,45 +11,20 @@
             <h6 class="card-subtitle mb-2 text-muted">By {{ post.author.username }} on {{ post.date_posted }}</h6>
             <p class="card-text">{{ post.content }}</p>
             <div>
-                <i class="fa fa-thumbs-up"></i>
-                <span id="likes-count-{{ post.id }}"> {{ post.num_likes }} </span>
-            </div>
-            <div id="like-post-{{ post.id }}">
-                <form hx-post="{% url 'social:like_post' post.id %}" hx-trigger="submit" hx-swap="outerHTML"
-                    hx-target="#like-post-{{ post.id }}" id="like-form-{{ post.id }}" data-post-id="{{ post.id }}">
+                <form hx-post="{% url 'social:like_post' post.id %}" hx-trigger="submit"
+                    hx-target="#like-count-{{ post.id }}" style="display: flex;">
                     {% csrf_token %}
-                    <span id="likes-count-{{ post.id }}">{{ post.num_likes }}</span>
-                    <button type="submit" id="like-button-{{ post.id }}">
-                        {% if request.user in post.like.all %}
-                        Unlike
-                        {% else %}
+                    <button type="submit" class="btn btn-primary btn-block" style="width: auto;">
+                        <i class="fa fa-thumbs-up"></i>
                         Like
-                        {% endif %}
                     </button>
+                    <h3 id="like-count-{{ post.id }}" class="text-primary" style="margin-left: 0.5rem;">
+                        {{ post.num_likes }}
+                    </h3>
                 </form>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    document.querySelectorAll('form').forEach((form) => {
-        form.addEventListener('htmx:afterSwap', (event) => {
-            const data = JSON.parse(event.detail.xhr.response);
-            const postId = form.dataset.postId;
-            const likesCountSpan = document.querySelector(`#likes-count-${postId}`);
-            likesCountSpan.innerText = data.likes_count;
-
-            const likeButton = document.querySelector(`#like-button-${postId}`);
-            if (data.likes_count > 0 && likeButton.innerText === 'Like') {
-                likeButton.innerText = 'Unlike';
-            } else if (data.likes_count === 0 && likeButton.innerText === 'Unlike') {
-                likeButton.innerText = 'Like';
-            }
-        });
-    });
-</script>
 {% endblock %}

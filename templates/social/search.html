@@ -8,25 +8,33 @@
     {% endif %}
 
     <div class="card mb-3">
-        {% if users %}
         <h3 class="card-header">Users</h3>
-        <ul>
-            {% for user in users %}
-            <li><a href="{% url 'accounts:user_profile' user.username %}">{{ user.username }}</a></li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+        <div style="margin: 1rem;">
+            {% if users %}
+            <ul>
+                {% for user in users %}
+                <li><a href="{% url 'accounts:user_profile' user.username %}">{{ user.username }}</a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted">No users found.</p>
+            {% endif %}
+        </div>
     </div>
 
     <div class="card mb-3">
-        {% if posts %}
         <h3 class="card-header">Posts</h3>
-        <ul>
-            {% for post in posts %}
-            <li><a href="{% url 'social:post_detail' post.id %}">{{ post.title }}</a></li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+        <div style="margin: 1rem;">
+            {% if posts %}
+            <ul>
+                {% for post in posts %}
+                <li><a href="{% url 'social:post_detail' post.id %}">{{ post.title }}</a></li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p class="text-muted">No posts found.</p>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}
