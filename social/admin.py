@@ -22,11 +22,13 @@ class PostAdmin(admin.ModelAdmin):
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
     list_display = ('post', 'user')
+    list_filter = ('user', 'post')
+    ordering = ('post', 'user')
 
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('post', 'user', 'date_posted')
-    list_filter = ('user', 'date_posted')
+    list_filter = ('post', 'user', 'date_posted')
     search_fields = ('content',)
     ordering = ('-date_posted',)
