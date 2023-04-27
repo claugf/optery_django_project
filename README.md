@@ -16,33 +16,32 @@ Please submit your code as a zip file containing a Django project with the above
 
 # Assignment
 ## Instructions
-1. Install Python and Django in case they are not installed in the local machine.
+1. Install Python and the virtualenv package for Python in case they are not installed in the local machine.
 ```
 brew install python
-pip install django
+pip install virtualenv
 ```
-2. Access to the project repository. For this you can either:
+2. Get the project repository. For this you can either:
 - Clone the git repository: 
 ```
 git clone git@github.com:claugf/optery_django_project.git
 ```
 - Unzip the sent file and copy to your local machine.
-
-3. Create virtual environment
+3. Access to the project repository.
 ```
-python -m venv env
+cd optery_django_project/
 ```
-4. Activate the virtual environment
+4. Create virtual environment.
+```
+virtualenv env
+```
+5. Activate the virtual environment.
 ```
 source env/bin/activate
 ```
-5. Install project dependencies
+6. Install project dependencies
 ```
 python -m pip install -r requirements.txt 
-```
-6. Run migrations
-```
-python manage.py migrate
 ```
 7. Run the server
 ```
