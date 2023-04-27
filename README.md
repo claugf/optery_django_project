@@ -28,6 +28,16 @@ Please submit your code as a zip file containing a Django project with the above
 >1. The Registration, Login and Logout for the User were made as the Post, Likes and Comments are related to a User.
 >2. A Search feature was implemented to look for Users and Posts.
 
+## Data
+The following Users were created. The password for all of them was set up as `P@ssw0rd!`:
+- Optery | Superuser: ☑️
+- Claudia | Superuser: ☑️
+- CyberNinja21
+- DataGuardianX
+- TechSavvyHacker
+- EncryptionMaster99
+- NetworkProtector27
+
 ## Instructions for Implementation
 1. Install Python and the virtualenv package for Python in case they are not installed in the local machine.
 ```
