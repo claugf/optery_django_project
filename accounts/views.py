@@ -55,3 +55,15 @@ def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     context = {'user': user}
     return render(request, 'accounts/user_profile.html', context)
+
+
+def unauthorizedpage(request, exception):
+    return render(request, 'accounts/403_csrf.html')
+
+
+def notfoundpage(request, exception):
+    return render(request, 'accounts/404code.html')
+
+
+def errorpage(request):
+    return render(request, 'accounts/500code.html')
