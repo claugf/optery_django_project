@@ -15,7 +15,20 @@ You have been tasked with building a social network app where a user can post a 
 Please submit your code as a zip file containing a Django project with the above features implemented. Your submission should include instructions on how to run the project and any relevant notes about the implementation.
 
 # Assignment
-## Instructions
+
+## Achievements
+* :white_check_mark: Used Django 4.2.
+* :white_check_mark: Used Python 3.11.
+* :white_check_mark: Implemented HTMX for liking a post and commenting on a post.
+* :white_check_mark: Used Django's built-in User model for the author and user fields.
+* :white_check_mark: Customized the Django admin interface for the post, like, and comment models.
+* :x: Bonus: Customized the Django admin to view the post with the HTMX view and add a comment as admin.
+> Some customizations were made to the Django admin interface to improve navigability but no with HTMX.
+* :white_check_mark: Bonus #2: Extended the features/functionality as desired.
+>1. The Registration, Login and Logout for the User were made as the Post, Likes and Comments are related to a User.
+>2. A Search feature was implemented to look for Users and Posts.
+
+## Instructions for Implementation
 1. Install Python and the virtualenv package for Python in case they are not installed in the local machine.
 ```
 brew install python
@@ -48,6 +61,3 @@ python -m pip install -r requirements.txt
 python manage.py runserver
 ```
 8. Browse to: http://127.0.0.1:8000/
-
->Note:
-The variables DEBUG, ALLOWED_HOSTS from the settings.py file were set like following (DEBUG = False | ALLOWED_HOSTS = ['127.0.0.1', '*'])for the sumission. However, they can be changed as needed.
